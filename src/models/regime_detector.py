@@ -1,13 +1,13 @@
 from hmmlearn import hmm
 import numpy as np
-
-import numpy as np
 import pandas as pd
 from hmmlearn.hmm import GaussianHMM
+from sklearn.preprocessing import StandardScaler
 
 class MarketRegimeModel:
-    def __init__(self, n_components=2, random_state=42):
+    def __init__(self, n_components=3, random_state=42):
         self.n_components = n_components
+        self.scaler = StandardScaler()
         self.model = GaussianHMM(
             n_components=self.n_components, 
             covariance_type="full", 
@@ -22,8 +22,9 @@ class MarketRegimeModel:
         Automatically identifies the high slippage state based on the variance of the spread.
         """
         X = df_features[feature_cols].values
-        self.model.fit(X)
-        states = self.model.predict(X)
+        X_scaled = self.scaler.fit_transform(X)
+        self.model.fit(X_scaled)
+        states = self.model.predict(X_scaled)
         
         #identify crash state, regime with the highest variance in the bid ask spread (featrue 0) is flagged.
         variances = []
@@ -39,7 +40,8 @@ class MarketRegimeModel:
 
     def predict(self, current_features: np.ndarray) -> np.ndarray:
         """Predicts the regime for live, incoming tick data."""
-        return self.model.predict(current_features)
+        X_scaled = self.scaler.transform(current_features)
+        return self.model.predict(X_scaled)
         
     def is_crash_regime(self, state: int) -> bool:
         return state == self.crash_state

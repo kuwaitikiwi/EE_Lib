@@ -36,4 +36,9 @@ def build_microstructure_features(df: pd.DataFrame) -> pd.DataFrame:
     
     vol_df = df.groupby('time_id')['log_return'].agg(realized_vol).rename('realized_volatility')
     
-    return pd.concat([df_agg, vol_df], axis=1).dropna()
+    features = pd.concat([df_agg, vol_df], axis=1).dropna()
+    
+    features['spread_mean'] = features['spread_mean'].rolling(window=5).mean()
+    features['obi_std'] = features['obi_std'].rolling(window=5).mean()
+
+    return features.dropna()
