@@ -1,7 +1,7 @@
 # EE_Lib: Regime-Aware Microstructure Execution Engine
 
 ## Performance Summary (Out-of-Sample)
-| Metric | Result | Institutional Significance |
+| Metric | Result | Interpretation |
 | :--- | :--- | :--- |
 | **Implementation Shortfall** | **-36.73 bps** | Significant alpha vs. VWAP benchmark |
 | **Hit Ratio (30s Alpha)** | **75.0%** | High predictive accuracy of OBI signals |
