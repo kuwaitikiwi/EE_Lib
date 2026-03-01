@@ -1,4 +1,4 @@
-# EE_Lib: Regime-Aware Microstructure Execution Engine
+# LOB-E: Regime-Aware Microstructure Execution Engine
 
 ## Performance Summary (Out-of-Sample)
 | Metric | Result | Interpretation |
